@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = 
-    ['name','email', 
-    'birth_date','average_grade'];
+    protected $fillable = ['school_class_id', 'name', 'email', 'birth_date', 'avarage_grade'];
 
     public function school_class(){
-        return $this->belongsTo(School_class::class);
+        return $this->belongsToMany(School_class::class);
+    }
+
+    public function courses(){
+        return $this->belongsToMany(Course::class)
+            ->withPivot('enrollment_date','grade')
+            ->withTimestamps();
     }
 }
